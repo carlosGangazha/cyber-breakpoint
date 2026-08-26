@@ -1,0 +1,22 @@
+const leaderboard = [
+  { name: 'mukoko', handle: '@mukoko', score: '2,840', rank: 1, initials: 'MK', color: 'lime' },
+  { name: 'Nyasha Z', handle: '@nyashaz', score: '2,410', rank: 2, initials: 'NZ', color: 'coral' },
+  { name: 'cipher_mw', handle: '@cipher_mw', score: '1,985', rank: 3, initials: 'CM', color: 'blue' },
+]
+
+function DiscoverPage({ category, filteredChallenges, joined, onCategoryChange, onQueryChange, onSetJoined, onSetActiveTab, onSetShowCreate, query, showCreate }) {
+  return (
+    <div className="discover-page">
+      <section className="intro-row">
+        <div><p className="eyebrow"><span className="pulse" /> Start here</p><h1>See what's<br /><em>happening.</em></h1><p className="intro-copy">Discover challenges, meet your people, and find your next way to grow.</p></div>
+        <div className="intro-aside"><span className="aside-number">04</span><span className="aside-label">new challenges<br />this week</span><span className="arrow">↗</span></div>
+      </section>
+      <section className="how-it-works"><div className="how-heading"><p className="section-kicker">01 / HOW IT WORKS</p><h2>One place to find your next move.</h2></div><div className="how-steps"><article><span>01</span><h3>Explore</h3><p>Browse challenges shaped for curious minds.</p></article><article><span>02</span><h3>Connect</h3><p>Find a squad that matches your interests.</p></article><article><span>03</span><h3>Level up</h3><p>Play, learn, and take your place on the board.</p></article></div></section>
+      <section className="match-banner"><div className="match-icon">✦</div><div className="match-text"><strong>Looking for your people?</strong><span>Match with Zimbabwean hackers who share your interests.</span></div><button className="match-button" onClick={() => onSetJoined(!joined)}>{joined ? 'Request sent' : 'Find a squad'} <span>→</span></button></section>
+      <section className="challenges-section"><div className="section-heading"><div><p className="section-kicker">02 / PLAY</p><h2>Live challenges</h2></div><button className="text-button" onClick={() => onSetShowCreate(!showCreate)}>Create a challenge <span>+</span></button></div>{showCreate && <form className="create-form" onSubmit={(event) => { event.preventDefault(); onSetShowCreate(false) }}><input aria-label="Challenge name" placeholder="Name your challenge" required /><button type="submit">Publish →</button></form>}<div className="filters"><div className="tabs">{['All challenges', 'Web', 'OSINT', 'Crypto'].map((item) => <button key={item} className={category === item ? 'filter active' : 'filter'} onClick={() => onCategoryChange(item)}>{item}</button>)}</div><label className="search"><span>⌕</span><input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search" aria-label="Search challenges" /></label></div><div className="challenge-list">{filteredChallenges.map((challenge) => <article className="challenge-card" key={challenge.title}><div className={`card-accent ${challenge.accent}`} /><div className="challenge-main"><div className="card-top"><span className="category-tag">{challenge.category}</span>{challenge.live && <span className="live-tag"><span /> live</span>}</div><h3>{challenge.title}</h3><p>Hosted on <strong>{challenge.host}</strong><span className="separator">·</span>{challenge.difficulty}</p></div><div className="challenge-meta"><span className="meta-label">ENDS IN</span><strong>{challenge.time}</strong><span>{challenge.solves} solves</span></div><button className="open-button" aria-label={`Open ${challenge.title}`}>↗</button></article>)}{filteredChallenges.length === 0 && <div className="empty-state">No challenges found. Try another search.</div>}</div></section>
+      <section className="discover-rankings"><div className="section-heading"><div><p className="section-kicker">03 / COMMUNITY</p><h2>Who's moving up</h2></div><button className="text-button" onClick={() => onSetActiveTab('Leaderboard')}>Full leaderboard <span>↗</span></button></div><div className="discover-rank-list">{leaderboard.map((person) => <div className="rank-row" key={person.name}><span className="rank">{String(person.rank).padStart(2, '0')}</span><span className={`avatar ${person.color}`}>{person.initials}</span><span className="person"><strong>{person.name}</strong><small>{person.handle}</small></span><strong className="score">{person.score}<small> XP</small></strong></div>)}</div></section>
+    </div>
+  )
+}
+
+export default DiscoverPage
