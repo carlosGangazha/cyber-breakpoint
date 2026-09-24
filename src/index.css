@@ -1,10 +1,147 @@
-:root { font: 16px/1.4 'Trebuchet MS', sans-serif; color: var(--ink, #161d18); background: var(--paper, #f2f1e9); font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; transition: color .2s ease, background-color .2s ease; }
+/* ==========================================================================
+   BreachPoint — design tokens
+   Dark mode is the flagship theme. Light mode is a secondary fallback.
+   ========================================================================== */
+
+:root {
+  /* type */
+  --font-display: 'Chakra Petch', 'IBM Plex Sans', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur-base: 320ms;
+  --dur-slow: 620ms;
+
+  /* radii */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-pill: 999px;
+
+  /* accents (shared across themes) */
+  --crimson-core: #ff1744;
+  --crimson-deep: #8b0f2c;
+  --crimson-bright: #dc143c;
+  --violet-deep: #3b0764;
+  --violet-bright: #7c3aed;
+  --blue-deep: #1e3a8a;
+  --blue-bright: #3b82f6;
+
+  --grad-danger: linear-gradient(135deg, var(--crimson-deep), var(--crimson-bright));
+  --grad-signal: linear-gradient(135deg, var(--violet-deep), var(--violet-bright));
+  --grad-info: linear-gradient(135deg, var(--blue-deep), var(--blue-bright));
+  --grad-breach: linear-gradient(120deg, var(--crimson-bright) 0%, var(--violet-bright) 55%, var(--blue-bright) 100%);
+}
+
+:root[data-theme='dark'] {
+  --bg-void: #08060b;
+  --bg-surface: #100c16;
+  --bg-surface-raised: #17111f;
+  --bg-surface-hover: #1d1526;
+
+  --text-primary: #f4f0f7;
+  --text-secondary: #cabfd6;
+  --text-muted: #a69cb5;
+  --text-faint: #6f6580;
+
+  --border-hairline: rgba(166, 156, 181, 0.14);
+  --border-glow: rgba(220, 20, 60, 0.4);
+  --border-glow-2: rgba(124, 58, 237, 0.4);
+
+  --glow-crimson: 0 0 24px rgba(255, 23, 68, 0.35);
+  --glow-violet: 0 0 24px rgba(124, 58, 237, 0.35);
+  --glow-blue: 0 0 24px rgba(59, 130, 246, 0.3);
+  --glow-soft: 0 0 40px rgba(139, 15, 44, 0.18);
+
+  --scrim: rgba(4, 3, 6, 0.72);
+}
+
+:root[data-theme='light'] {
+  --bg-void: #f7f5fa;
+  --bg-surface: #ffffff;
+  --bg-surface-raised: #fdfbff;
+  --bg-surface-hover: #f1ecf7;
+
+  --text-primary: #15101c;
+  --text-secondary: #3c3448;
+  --text-muted: #6c6478;
+  --text-faint: #948caa;
+
+  --border-hairline: rgba(21, 16, 28, 0.1);
+  --border-glow: rgba(220, 20, 60, 0.28);
+  --border-glow-2: rgba(124, 58, 237, 0.28);
+
+  --glow-crimson: 0 0 20px rgba(220, 20, 60, 0.16);
+  --glow-violet: 0 0 20px rgba(124, 58, 237, 0.16);
+  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.14);
+  --glow-soft: 0 0 30px rgba(139, 15, 44, 0.08);
+
+  --scrim: rgba(21, 16, 28, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
-  background: var(--paper, #f2f1e9);
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-#root {
-  min-height: 100svh;
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+::selection {
+  background: var(--crimson-core);
+  color: #fff;
+}
+
+/* reduced motion: strip glow blooms + ripples + drift, keep simple fades */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

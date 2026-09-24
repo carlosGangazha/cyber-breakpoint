@@ -1,21 +1,46 @@
+const VALUES = [
+  {
+    title: 'Discover openly',
+    body: 'Talent in Zimbabwe is scattered across group chats and forgotten Discords. BreachPoint gives it one visible home.',
+  },
+  {
+    title: 'Connect meaningfully',
+    body: "Team matching isn't a nice-to-have here — it's the reason the platform exists. Skills should find each other.",
+  },
+  {
+    title: 'Grow together',
+    body: 'Every solve, writeup, and hosted challenge raises the floor for everyone else in the network.',
+  },
+]
+
 function AboutPage() {
   return (
-    <section className="about-page">
-      <div className="about-heading">
-        <div><p className="eyebrow"><span className="pulse" /> About PwnForge</p><h1>Built for the<br /><em>curious.</em></h1><p className="intro-copy">A community home for Zimbabwean hackers to discover, connect, and grow together.</p></div>
-        <span className="about-mark">ZW / 2024</span>
+    <div className="page about-page">
+      <div className="page-head">
+        <p className="section-kicker">WHY WE EXIST</p>
+        <h1>Zimbabwe already has the talent.</h1>
+        <p className="hero-sub">
+          Global platforms don't solve for local visibility. There's no way to find a teammate two suburbs
+          away, no link back to Zimbabwean universities or employers, and no central record of who's
+          actually good at what. BreachPoint gives the scene a place to connect, compete, and be seen — at
+          home first, then internationally.
+        </p>
       </div>
-      <div className="about-story">
-        <div><p className="section-kicker">01 / WHY WE EXIST</p><h2>Cybersecurity grows faster when no one has to learn alone.</h2></div>
-        <p> PwnForge brings the local security community into one place. Find a challenge worth your time, meet people with complementary skills, and keep a record of the progress you make together.</p>
-      </div>
-      <div className="about-values">
-        <article><span>01</span><h3>Discover openly</h3><p>See what the community is playing, learning, and building right now.</p></article>
-        <article><span>02</span><h3>Connect meaningfully</h3><p>Find teammates based on shared interests, availability, and strengths.</p></article>
-        <article><span>03</span><h3>Grow together</h3><p>Turn every solve, conversation, and new skill into momentum.</p></article>
-      </div>
-      <div className="about-footer"><span>Made with the community</span><span>Harare · Bulawayo · Everywhere</span></div>
-    </section>
+
+      <section className="values-grid">
+        {VALUES.map((value) => (
+          <article className="value-card glow-card" key={value.title}>
+            <h3>{value.title}</h3>
+            <p>{value.body}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="about-closing glow-card">
+        <p className="section-kicker">THE BOTTOM LINE</p>
+        <h2>A place to connect, compete, and get recognized — starting small, built to last.</h2>
+      </section>
+    </div>
   )
 }
 

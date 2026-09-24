@@ -1,22 +1,63 @@
-const leaderboard = [
-  { name: 'mukoko', handle: '@mukoko', score: '2,840', rank: 1, initials: 'MK', color: 'lime' },
-  { name: 'Nyasha Z', handle: '@nyashaz', score: '2,410', rank: 2, initials: 'NZ', color: 'coral' },
-  { name: 'cipher_mw', handle: '@cipher_mw', score: '1,985', rank: 3, initials: 'CM', color: 'blue' },
-  { name: 'Tafadzwa', handle: '@tafadzwa', score: '1,740', rank: 4, initials: 'TA', color: 'violet' },
-]
+import { useState } from 'react'
+import { leaderboard } from '../data/leaderboard.js'
 
 function LeaderboardPage() {
+  const [range, setRange] = useState('month')
+
   return (
-    <section className="leaderboard-page">
-      <div className="leaderboard-page-heading">
-        <div><p className="eyebrow"><span className="pulse" /> Zimbabwe's cyber community</p><h1>Top of<br /><em>Zim.</em></h1><p className="intro-copy">The people pushing the community forward.</p></div>
-        <div className="leaderboard-period"><span className="selected">THIS MONTH</span><span>ALL TIME</span></div>
+    <div className="page leaderboard-page">
+      <div className="page-head">
+        <p className="section-kicker">RANKINGS</p>
+        <h1>The leaderboard.</h1>
+        <div className="range-toggle" role="tablist" aria-label="Leaderboard range">
+          <button
+            aria-selected={range === 'month'}
+            className={range === 'month' ? 'toggle-btn active' : 'toggle-btn'}
+            onClick={() => setRange('month')}
+            role="tab"
+          >
+            This month
+          </button>
+          <button
+            aria-selected={range === 'all'}
+            className={range === 'all' ? 'toggle-btn active' : 'toggle-btn'}
+            onClick={() => setRange('all')}
+            role="tab"
+          >
+            All-time
+          </button>
+        </div>
       </div>
-      <div className="leaderboard-table" role="list">
-        {leaderboard.map((person) => <article className="leaderboard-page-row" key={person.name} role="listitem"><span className="leaderboard-page-rank">{String(person.rank).padStart(2, '0')}</span><span className={`avatar ${person.color}`}>{person.initials}</span><span className="person"><strong>{person.name}</strong><small>{person.handle}</small></span><span className="leaderboard-page-score"><strong>{person.score}</strong><small> XP</small></span><span className="leaderboard-page-arrow">↗</span></article>)}
-      </div>
-      <div className="leaderboard-page-footer"><span>RANKINGS UPDATED TODAY</span><span>Keep playing to climb higher <b>→</b></span></div>
-    </section>
+
+      <table className="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Handle</th>
+            <th className="align-right">{range === 'month' ? 'XP this month' : 'Total XP'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((entry) => (
+            <tr className={entry.rank <= 3 ? 'top-row' : undefined} key={entry.handle}>
+              <td className="mono">
+                {entry.rank <= 3 ? <span className="rank-medal">#{entry.rank}</span> : `#${entry.rank}`}
+              </td>
+              <td>
+                <div className="handle-cell">
+                  <span className={`avatar-chip accent-${entry.color}`}>{entry.initials}</span>
+                  <div>
+                    <p className="handle-name">{entry.name}</p>
+                    <p className="handle-tag mono">{entry.handle}</p>
+                  </div>
+                </div>
+              </td>
+              <td className="align-right mono">{entry.score} XP</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
