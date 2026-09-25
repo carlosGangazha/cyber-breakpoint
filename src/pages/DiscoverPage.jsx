@@ -25,6 +25,7 @@ function DiscoverPage({
   joined,
   onCategoryChange,
   onQueryChange,
+  onEnterNetwork,
   onSetJoined,
   onSetActiveTab,
   onSetShowCreate,
@@ -48,7 +49,7 @@ function DiscoverPage({
             all from one place built for the local scene.
           </p>
           <div className="hero-actions">
-            <button className="cta-primary glow-el" onPointerDown={spawnRipple} onClick={() => onSetActiveTab('Dashboard')}>
+            <button className="cta-primary glow-el" onPointerDown={spawnRipple} onClick={onEnterNetwork}>
               Enter the network <span>→</span>
             </button>
             <button className="cta-ghost glow-el" onPointerDown={spawnRipple} onClick={() => onSetActiveTab('Learn')}>

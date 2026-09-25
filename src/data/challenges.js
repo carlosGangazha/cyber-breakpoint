@@ -1,6 +1,3 @@
-// accent keys map to the category color system defined in the design spec:
-// web -> signal-blue, osint -> smoke-crimson, crypto -> smoke-violet,
-// forensics -> crimson/blue split, misc -> violet/blue split, rev -> crimson-core
 export const challenges = [
   {
     title: 'The Baobab Protocol',

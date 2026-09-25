@@ -41,7 +41,7 @@ function SignupPage({ onBack, onComplete }) {
         available_for_bounties: form.availableForBounties,
       })
       onComplete()
-    } catch (err) {
+    } catch {
       setStatus('error')
       setErrorMessage("Couldn't reach the network. Check your connection and try again.")
     }

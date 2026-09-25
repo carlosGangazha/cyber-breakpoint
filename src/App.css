@@ -11,67 +11,6 @@
 }
 
 /* --------------------------------------------------------------------------
-   Atmosphere — the "smoke" is implied via oversized blurred gradient blobs
-   bleeding in from the edges, not literal particle textures.
-   -------------------------------------------------------------------------- */
-.atmosphere {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.haze {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.5;
-  animation: drift 18s ease-in-out infinite alternate;
-}
-
-:root[data-theme='light'] .haze {
-  opacity: 0.22;
-}
-
-.haze-crimson {
-  width: 55vw;
-  height: 55vw;
-  top: -20vw;
-  left: -15vw;
-  background: radial-gradient(circle, var(--crimson-deep), transparent 70%);
-  animation-delay: 0s;
-}
-
-.haze-violet {
-  width: 60vw;
-  height: 60vw;
-  bottom: -25vw;
-  right: -20vw;
-  background: radial-gradient(circle, var(--violet-deep), transparent 70%);
-  animation-delay: -6s;
-}
-
-.haze-blue {
-  width: 40vw;
-  height: 40vw;
-  top: 40vh;
-  left: 30vw;
-  background: radial-gradient(circle, var(--blue-deep), transparent 72%);
-  animation-delay: -12s;
-  opacity: 0.35;
-}
-
-@keyframes drift {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(4%, 3%) scale(1.08);
-  }
-}
-
-/* --------------------------------------------------------------------------
    Topbar
    -------------------------------------------------------------------------- */
 .topbar {
@@ -110,17 +49,8 @@
   transition: stroke-width var(--dur-base) var(--ease-out);
 }
 
-.brand-word {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.02em;
-}
-
-.brand-word-accent {
-  letter-spacing: 0.14em;
-  color: var(--text-muted);
-  font-weight: 500;
+.brand-dot {
+  color: var(--crimson-bright);
 }
 
 .nav-rail {
@@ -152,29 +82,6 @@
   color: var(--text-primary);
 }
 
-.nav-underline {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 3px;
-  height: 2px;
-  border-radius: var(--r-pill);
-  background: var(--grad-breach);
-  box-shadow: 0 0 12px rgba(220, 20, 60, 0.6);
-  animation: underline-slide var(--dur-base) var(--ease-out);
-}
-
-@keyframes underline-slide {
-  from {
-    transform: scaleX(0.3);
-    opacity: 0;
-  }
-  to {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-}
-
 .top-actions {
   display: flex;
   align-items: center;
@@ -200,10 +107,6 @@
 
 .icon-button {
   padding: 8px 10px;
-}
-
-.theme-icon {
-  font-size: 1rem;
 }
 
 .notification-dot {
@@ -295,20 +198,6 @@
   font-size: 0.72rem;
   white-space: nowrap;
   padding-top: 2px;
-}
-
-.empty-notifications {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 12px;
-  padding: 18px 0 8px;
-  color: var(--text-muted);
-}
-
-.empty-notifications .success-mark {
-  margin-bottom: 0;
 }
 
 .login-button {
@@ -409,10 +298,6 @@ main {
   min-height: 100%;
 }
 
-.page-transition {
-  animation: page-enter var(--dur-slow) var(--ease-out);
-}
-
 @keyframes page-enter {
   from {
     opacity: 0;
@@ -424,22 +309,6 @@ main {
     transform: translateY(0);
     filter: blur(0);
   }
-}
-
-.intro-row,
-.match-banner,
-.content-grid,
-.ctftime-section {
-  width: 100%;
-}
-
-.intro-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  min-height: min(24vh, 220px);
-  padding: 10px 0 4px;
 }
 
 .section-kicker {
@@ -1585,21 +1454,6 @@ footer {
   font-size: 0.82rem;
 }
 
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-muted);
-}
-
-.status-line b {
-  font-weight: 600;
-}
-
-.status-live {
-  color: var(--crimson-bright);
-}
-
 /* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */
@@ -1615,7 +1469,8 @@ footer {
 
   .how-it-works,
   .values-grid,
-  .stat-grid {
+  .stat-grid,
+  .teammate-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -1628,6 +1483,7 @@ footer {
   .how-it-works,
   .values-grid,
   .stat-grid,
+  .teammate-grid,
   .form-row {
     grid-template-columns: 1fr;
   }
