@@ -10,12 +10,13 @@ import SignupPage from './pages/SignupPage.jsx'
 import { challenges as challengeSeed, categories as challengeCategories } from './data/challenges.js'
 
 const navItems = ['Discover', 'Leaderboard', 'Learn', 'About']
+const GOOGLE_CLIENT_ID = '601137189383-nb6mvfo3nki4ftuso4ntq406395ukqvv.apps.googleusercontent.com'
 
 const notifications = [
   {
     id: 1,
     title: 'Team invite',
-    detail: 'Nyati Sec invited you to their weekend squad.',
+    detail: 'Miller invited you to their weekend squad.',
     time: '2 min ago',
     unread: true,
   },
@@ -38,6 +39,7 @@ function App() {
   const [showNotifications, setShowNotifications] = useState(false)
   const [authSubmitted, setAuthSubmitted] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
   const [theme, setTheme] = useState(() => {
     const savedTheme = window.localStorage.getItem('mhiripiri-theme')
     return savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
@@ -69,11 +71,67 @@ function App() {
     setShowAuth(true)
   }
 
-  const handleAuthSuccess = () => {
+  const handleAuthSuccess = (userData = null) => {
+    if (userData) {
+      setUser(userData)
+    }
     setIsLoggedIn(true)
     setShowAuth(false)
     setAuthSubmitted(false)
     setActiveTab('Dashboard')
+  }
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.defer = true
+
+    script.onload = () => {
+      if (!window.google?.accounts?.id) {
+        return
+      }
+
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: (response) => {
+          if (!response?.credential) {
+            return
+          }
+
+          try {
+            const payloadSegment = response.credential.split('.')[1]
+            const normalizedPayload = payloadSegment.replace(/-/g, '+').replace(/_/g, '/')
+            const decoded = JSON.parse(atob(normalizedPayload))
+            const googleUser = {
+              name: decoded.name || 'Google User',
+              email: decoded.email || '',
+              picture: decoded.picture || '',
+            }
+
+            console.log('Google user:', googleUser.name, googleUser.email)
+            handleAuthSuccess(googleUser)
+          } catch (error) {
+            console.error('Google sign-in failed:', error)
+          }
+        },
+      })
+    }
+
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
+  const handleGoogleSignIn = () => {
+    if (!window.google?.accounts?.id) {
+      console.error('Google auth is still loading')
+      return
+    }
+
+    window.google.accounts.id.prompt()
   }
 
   const enterNetwork = () => {
@@ -157,7 +215,7 @@ function App() {
             }}
             type="button"
           >
-            {isLoggedIn ? 'Profile' : 'Log in'} <span>↗</span>
+            {isLoggedIn ? (user?.name || 'Profile') : 'Log in'} <span>↗</span>
           </button>
         </div>
       </header>
@@ -263,7 +321,7 @@ function App() {
                 <h2 id="auth-title">Welcome back.</h2>
                 <p className="auth-subtitle">Pick up where you left off.</p>
 
-                <button className="google-button" onClick={() => setAuthSubmitted(true)} type="button">
+                <button className="google-button" onClick={handleGoogleSignIn} type="button">
                   <span className="google-mark">G</span> Continue with Google <span>↗</span>
                 </button>
 
